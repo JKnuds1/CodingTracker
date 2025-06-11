@@ -10,6 +10,7 @@ namespace CodingTracker
         {
             Database db = new Database();
             db.CreateDatabase(dbPath);
+            
             Menu.GetMainMenu();
         }
     }

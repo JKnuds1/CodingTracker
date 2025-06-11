@@ -10,9 +10,8 @@ namespace CodingTracker
 {
     class Database
     {
-        internal static void InsertSession()
+        internal static void InsertSession(CodingSession session)
         {
-            CodingSession session = UserInput.GetCodeSession();
             using (var connection = new SQLiteConnection(Program.connectionString))
             {
                 connection.Open();

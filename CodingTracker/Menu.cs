@@ -11,7 +11,7 @@ namespace CodingTracker
     {
         internal static void GetMainMenu()
         {
-            var menuChoices = new string[5]{"View Coding Log", "Add Session", "Update Session", "Delete Session", "Quit"};
+            var menuChoices = new string[6]{"View Coding Log", "Timer", "Add Session", "Update Session", "Delete Session", "Quit"};
             bool running = true;
             while(running){
             Console.Clear();
@@ -27,7 +27,10 @@ namespace CodingTracker
                         Console.ReadLine();
                         break;
                     case "Add Session":
-                        Database.InsertSession();
+                        Database.InsertSession(UserInput.GetCodeSession());
+                        break;
+                    case "Timer":
+                        StopWatch.Timer();
                         break;
                     case "Update Session":
                         Database.UpdateSession();

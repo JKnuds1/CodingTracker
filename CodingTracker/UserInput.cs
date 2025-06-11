@@ -13,7 +13,7 @@ namespace CodingTracker
         {
             DateTime startTime = GetDateTime("Enter the start time of the session in the format: \"HH:mm dd.MM.yyyy\" or enter \"Now\" to get the current time.");
             DateTime endTime = GetDateTime("Enter the ending time of the session in the format: \"HH:mm dd.MM.yyyy\" or enter \"Now\" to get the current time.");
-            string duration = (endTime - startTime).ToString();
+            string duration = GetDuration(startTime,endTime);
             CodingSession codingSession = new CodingSession
             {
                 StartTime = startTime,
@@ -54,9 +54,7 @@ namespace CodingTracker
             DateTime time = StringToDate(userInput, out timeInput);
             if (userInput.ToLower() == "now")
             {
-                var now = DateTime.Now;
-                DateTime truncatedNow = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                return truncatedNow;
+                return GetTimeNow();
             }
 
             else if (time == default)
@@ -65,6 +63,18 @@ namespace CodingTracker
                 return GetDateTime(message);
             }
             return time;
+        }
+        internal static DateTime GetTimeNow()
+        {
+            var now = DateTime.Now;
+            DateTime truncatedNow = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            return truncatedNow;
+        }
+        internal static string GetDuration(DateTime start, DateTime end)
+        {
+            TimeSpan duration = end - start;
+            TimeSpan truncatedDuration = new TimeSpan(duration.Days,duration.Hours,duration.Minutes,duration.Seconds);
+            return truncatedDuration.ToString();
         }
     }
 }

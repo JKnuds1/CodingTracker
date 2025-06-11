@@ -8,11 +8,9 @@ namespace CodingTracker
         public static string dbPath = ConfigurationManager.AppSettings.Get("dbPath");
         static void Main(string[] args)
         {
-            //Database db = new Database();
-            //db.CreateDatabase(dbPath);
-            //db.SessionToTable();
+            Database db = new Database();
+            db.CreateDatabase(dbPath);
             Menu.GetMainMenu();
-
         }
     }
 }

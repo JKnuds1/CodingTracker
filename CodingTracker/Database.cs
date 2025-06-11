@@ -1,63 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SQLite;
-using System.Globalization;
-using System.Data.SqlClient;
 using Dapper;
+using Spectre.Console;
 
 
 namespace CodingTracker
 {
     class Database
     {
-
-    internal DateTime StringToDate(string userInput, out DateTime timeInput)
+        internal static void InsertSession()
         {
-            bool success = DateTime.TryParseExact(userInput.Trim(), "HH:mm dd.MM.yyyy", CultureInfo.GetCultureInfo("nb-NO"), DateTimeStyles.None, out timeInput);
- 
-            if(!success)
-            {
-                timeInput = default;
-            }
-            return timeInput;
-
-        }
-
-    internal DateTime GetDateTime(string message)
-            {
-            DateTime timeInput;
-            Console.WriteLine(message);
-            string userInput = Console.ReadLine();
-            DateTime time = StringToDate(userInput, out timeInput);
-            if (time == default)
-            {
-                Console.WriteLine("Wrong format! Try again.");
-                return GetDateTime(message);
-            }
-            return time;
-            }
-
-    internal CodingSession GetCodeSession()
-        {
-            DateTime startTime = GetDateTime("Enter the start time of the session in the format: \"HH:mm dd.MM.yyyy\".");
-            DateTime endTime = GetDateTime("Enter the ending time of the session in the format: \"HH:mm dd.MM.yyyy\".");
-            TimeSpan duration = endTime - startTime;
-            CodingSession codingSession = new CodingSession
-            {
-                StartTime = startTime,
-                EndTime = endTime,
-                Duration = duration
-            };
-            return codingSession;
-        }
-
-        internal void SessionToTable()
-        {
-            CodingSession session = GetCodeSession();
+            CodingSession session = UserInput.GetCodeSession();
             using (var connection = new SQLiteConnection(Program.connectionString))
             {
                 connection.Open();
@@ -65,12 +20,57 @@ namespace CodingTracker
                 connection.Execute(insertQuery, session);
             }
         }
-
-    internal void PrintCodingSession(CodingSession session)
+        internal static void ViewTable()
         {
-            Console.WriteLine($"You started at {session.StartTime}, ended at {session.EndTime} and this lasted {session.Duration}.");
+            var table = new Table();
+            table.AddColumn("Id");
+            table.AddColumn("Duration");
+            table.AddColumn("Start Time");
+            table.AddColumn("End Time");
+            using (var connection = new SQLiteConnection(Program.connectionString))
+            {
+                connection.Open();
+                var insertQuery = "SELECT * FROM CodingTracker";
+                List<CodingSession> sessions = connection.Query<CodingSession>(insertQuery).ToList();
+
+           
+                foreach (var session in sessions)
+                {
+                    table.AddRow($"{session.Id}",$"{session.Duration}",$"{session.StartTime}",$"{session.EndTime}");
+                }
+            }
+            AnsiConsole.Write(table);
         }
-    internal void CreateDatabase(string dbPath)
+        internal static void DeleteSession()
+        {
+            ViewTable();
+            int id = UserInput.GetId("Insert the Id number of the session you want to delete.");
+            using (var connection = new SQLiteConnection(Program.connectionString))
+            {
+                connection.Open();
+                var deleteQuery = "DELETE FROM CodingTracker WHERE Id = @Id";
+                connection.Execute(deleteQuery, new { Id = id });
+            }
+        }
+
+        internal static void UpdateSession()
+        {
+            ViewTable();
+            int updateId = UserInput.GetId("Insert the Id number of the session you want to update.");
+            CodingSession updateSession = UserInput.GetCodeSession();
+            using (var connection = new SQLiteConnection(Program.connectionString))
+            {
+                connection.Open();
+                
+                var updateQuery = "UPDATE CodingTracker SET StartTime= @starttime, EndTime=@endtime,Duration=@duration WHERE Id = @id";
+                connection.Execute(updateQuery, new {id = updateId,
+                                                     starttime=updateSession.StartTime,
+                                                     endtime=updateSession.EndTime,
+                                                     duration = updateSession.Duration});
+            }
+        }
+
+        internal void CreateDatabase(string dbPath)
         {
             if (!File.Exists(dbPath))
             {

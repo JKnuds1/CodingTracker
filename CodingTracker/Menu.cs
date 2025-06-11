@@ -11,7 +11,7 @@ namespace CodingTracker
     {
         internal static void GetMainMenu()
         {
-            var menuChoices = new string[4]{"View Coding Log", "Add Session", "Delete Session", "Quit"};
+            var menuChoices = new string[5]{"View Coding Log", "Add Session", "Update Session", "Delete Session", "Quit"};
             bool running = true;
             while(running){
             Console.Clear();
@@ -23,20 +23,20 @@ namespace CodingTracker
             switch (choice)
                 {
                     case "View Coding Log":
-                        Console.WriteLine("Viewing something...");
+                        Database.ViewTable();
                         Console.ReadLine();
                         break;
                     case "Add Session":
-                        Console.WriteLine("Adding something...");
-                        Console.ReadLine();
+                        Database.InsertSession();
+                        break;
+                    case "Update Session":
+                        Database.UpdateSession();
                         break;
                     case "Delete Session":
-                        Console.WriteLine("Deleting something...");
-                        Console.ReadLine();
+                        Database.DeleteSession();
                         break;
                     case "Quit":
-                        Console.WriteLine("Quitting something...");
-                        Console.ReadLine();
+                        Console.WriteLine("Goodbye!");
                         running = false;
                         break;
                 } 

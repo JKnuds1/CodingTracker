@@ -7,8 +7,8 @@ namespace CodingTracker
     {
         internal static CodingSession GetCodeSession()
         {
-            DateTime startTime = GetDateTime("Enter the start time of the session in the format: \"HH:mm dd.MM.yyyy\" or enter \"Now\" to get the current time.");
-            DateTime endTime = GetDateTime("Enter the ending time of the session in the format: \"HH:mm dd.MM.yyyy\" or enter \"Now\" to get the current time.");
+            DateTime startTime = GetDateTime("Enter the start time of the session in the format: \"HH:mm dd.MM.yyyy\" or enter \"Now\" to get the current time. \nEnter 0 to get to the Main menu.");
+            DateTime endTime = GetDateTime("Enter the ending time of the session in the format: \"HH:mm dd.MM.yyyy\" or enter \"Now\" to get the current time.\nEnter 0 to get to the Main menu.");
             string duration = GetDuration(startTime,endTime);
             CodingSession codingSession = new CodingSession
             {
@@ -24,7 +24,11 @@ namespace CodingTracker
             Console.WriteLine(message);
             string userInput = Console.ReadLine();
             bool success = int.TryParse(userInput, out id);
-            if (success)
+            if (userInput == "0")
+            {
+                Menu.GetMainMenu();
+            }
+            else if (success)
             {
                 return id;
             }
@@ -52,7 +56,10 @@ namespace CodingTracker
             {
                 return GetTimeNow();
             }
-
+            else if (userInput == "0")
+            {
+                Menu.GetMainMenu();
+            }
             else if (time == default)
             {
                 Console.WriteLine("Wrong format! Try again.");

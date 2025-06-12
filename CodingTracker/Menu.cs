@@ -8,8 +8,7 @@ namespace CodingTracker
         internal static void GetMainMenu()
         {
             var menuChoices = new string[]{"View Coding Log", "Timer", "Add Session", "Update Session", "Delete Session", "Quit"};
-            bool running = true;
-            while(running){
+            while(Program.running){
             Console.Clear();
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -36,7 +35,8 @@ namespace CodingTracker
                         break;
                     case "Quit":
                         Console.WriteLine("Goodbye!");
-                        running = false;
+                        Program.running = false;
+                        Environment.Exit(0);
                         break;
                 } 
             }

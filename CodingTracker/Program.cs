@@ -5,6 +5,7 @@ namespace CodingTracker
     {
         public static string connectionString = ConfigurationManager.AppSettings.Get("connectionString");
         public static string dbPath = ConfigurationManager.AppSettings.Get("dbPath");
+        public static bool running = true;
         static void Main(string[] args)
         {
             Database db = new Database();

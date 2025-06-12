@@ -42,7 +42,7 @@ namespace CodingTracker
         internal static void DeleteSession()
         {
             ViewTable();
-            int id = UserInput.GetId("Insert the Id number of the session you want to delete.");
+            int id = UserInput.GetId("Insert the Id number of the session you want to delete.\nEnter 0 to get to the Main menu.");
             using (var connection = new SQLiteConnection(Program.connectionString))
             {
                 connection.Open();
@@ -54,7 +54,7 @@ namespace CodingTracker
         internal static void UpdateSession()
         {
             ViewTable();
-            int updateId = UserInput.GetId("Insert the Id number of the session you want to update.");
+            int updateId = UserInput.GetId("Insert the Id number of the session you want to update.\nEnter 0 to get to the Main menu.");
             CodingSession updateSession = UserInput.GetCodeSession();
             using (var connection = new SQLiteConnection(Program.connectionString))
             {

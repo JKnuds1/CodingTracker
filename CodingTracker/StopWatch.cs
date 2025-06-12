@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 namespace CodingTracker
 {
     class StopWatch
@@ -28,13 +23,13 @@ namespace CodingTracker
                 tick();
                 Console.Clear();
                 Console.WriteLine(timespent);
-                Thread.Sleep(1000);
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(intercept: true);
                     if(key.Key == ConsoleKey.Enter)
                     {
                         runWatch = false;
+                        Console.ReadLine();
                         break;
                     }
                 }

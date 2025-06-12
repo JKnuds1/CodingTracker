@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Spectre.Console;
 
 namespace CodingTracker
@@ -11,7 +7,7 @@ namespace CodingTracker
     {
         internal static void GetMainMenu()
         {
-            var menuChoices = new string[6]{"View Coding Log", "Timer", "Add Session", "Update Session", "Delete Session", "Quit"};
+            var menuChoices = new string[]{"View Coding Log", "Timer", "Add Session", "Update Session", "Delete Session", "Quit"};
             bool running = true;
             while(running){
             Console.Clear();

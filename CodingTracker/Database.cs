@@ -32,7 +32,6 @@ namespace CodingTracker
                 var insertQuery = "SELECT * FROM CodingTracker";
                 List<CodingSession> sessions = connection.Query<CodingSession>(insertQuery).ToList();
 
-           
                 foreach (var session in sessions)
                 {
                     table.AddRow($"{session.Id}",$"{session.Duration}",$"{session.StartTime}",$"{session.EndTime}");

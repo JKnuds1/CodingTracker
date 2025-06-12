@@ -1,5 +1,5 @@
 This program is a CRUD console app for tracking coding sessions. Either by adding the start and end times manually 
-or by starting a timer that loggs the length of the session automatically.
+or by starting a timer that logs the length of the session automatically.
 # Features 
 - ### SqLite database connection
     -   The program uses a SQLite db connection to store and read information.
